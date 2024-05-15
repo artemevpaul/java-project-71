@@ -11,32 +11,32 @@ public class Differ {
         return Files.readString(Paths.get(path));
     }
 
-    public static Map<String,Object> convert(String JsonContent) throws Exception {
+    public static Map<String, Object> convert(String jsonContent) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(JsonContent, Map.class);
+        return mapper.readValue(jsonContent, Map.class);
     }
 
-    public static String generate (Map<String,Object> map1, Map<String,Object> map2) throws Exception {
-        Map<String,Object> tree = new TreeMap<>();
+    public static String generate(Map<String, Object> map1, Map<String,Object> map2) throws Exception {
+        Map<String, Object> tree = new TreeMap<>();
 
-        for(var key : map1.keySet()) {
-            if(!map2.containsKey(key)) {
+        for (var key : map1.keySet()) {
+            if (!map2.containsKey(key)) {
                 tree.put(key, "- " + key + ": " + map1.get(key));
             } else if (!map1.get(key).equals(map2.get(key))) {
-                tree.put(key, "- " + key + ": " + map1.get(key) + "\n  + " + key + ": " + map2.get(key));;
+                tree.put(key, "- " + key + ": " + map1.get(key) + "\n  + " + key + ": " + map2.get(key));
             } else if ((map1.get(key)).equals(map2.get(key))) {
                 tree.put(key, "  " + key + ": " + map1.get(key));
             }
         }
 
         for (var key : map2.keySet()) {
-            if(!map1.containsKey(key)){
+            if(!map1.containsKey(key)) {
                 tree.put(key, "+ " + key + ": " + map2.get(key));
             }
         }
 
         StringBuilder builder = new StringBuilder("{\n");
-        tree.forEach((key, value) -> builder.append("  " + value +"\n"));
+        tree.forEach((key, value) -> builder.append("  " + value + "\n"));
         builder.append("}");
 
         return builder.toString();
