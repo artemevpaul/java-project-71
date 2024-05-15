@@ -16,7 +16,7 @@ public class Differ {
         return mapper.readValue(jsonContent, Map.class);
     }
 
-    public static String generate(Map<String, Object> map1, Map<String,Object> map2) throws Exception {
+    public static String generate(Map<String, Object> map1, Map<String, Object> map2) throws Exception {
         Map<String, Object> tree = new TreeMap<>();
 
         for (var key : map1.keySet()) {
@@ -30,7 +30,7 @@ public class Differ {
         }
 
         for (var key : map2.keySet()) {
-            if(!map1.containsKey(key)) {
+            if (!map1.containsKey(key)) {
                 tree.put(key, "+ " + key + ": " + map2.get(key));
             }
         }
