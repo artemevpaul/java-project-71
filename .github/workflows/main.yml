@@ -21,5 +21,6 @@ jobs:
       uses: gradle/gradle-build-action@v3
       with:
           gradle-version: 8.7
+          build-root-directory: app
     - run: ./app/gradlew checkstyleMain
     - run: ./app/gradlew test
