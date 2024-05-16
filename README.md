@@ -3,7 +3,7 @@
 
 <a href="https://codeclimate.com/github/artemevpaul/java-project-71/maintainability"><img src="https://api.codeclimate.com/v1/badges/c9ade152067aa9dd3566/maintainability" /></a>
 
-![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![example workflow](https://github.com/artemevpaul/java-project-71/blob/main/.github/workflows/main.yml/badge.svg)
 
 
 
