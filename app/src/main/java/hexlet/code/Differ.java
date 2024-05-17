@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 public class Differ {
     public static String parseJson(String path) throws Exception {
+        //System.out.println(Files.readString(Paths.get(path)));
         return Files.readString(Paths.get(path));
     }
 
