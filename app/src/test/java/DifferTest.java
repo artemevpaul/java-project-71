@@ -1,5 +1,5 @@
-package hexlet.code;
-
+import hexlet.code.Differ;
+import org.junit.jupiter.api.Assertions;
 import  org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.BeforeEach;
 
@@ -18,7 +18,7 @@ class DifferTest {
                 + "  \"proxy\": \"123.234.53.22\",\n"
                 + "  \"follow\": false\n"
                 + "}";
-        assertEquals(file1Contents, Differ.parseJson("src/main/java/hexlet/code/file1.json"));
+        Assertions.assertEquals(file1Contents, Differ.parseJson("src/main/java/hexlet/code/file1.json"));
     }
     @Test
     public void testConvert() throws Exception {
