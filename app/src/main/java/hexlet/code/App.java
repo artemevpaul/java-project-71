@@ -6,7 +6,6 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.Callable;
 
 @Command(

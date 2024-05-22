@@ -33,10 +33,6 @@ public class Differ {
 
         return builder.toString();
     }
-
-    public static String compareYml(Map<String, Object> map1, Map<String, Object> map2) {
-        return "";
-    }
 }
 
 
