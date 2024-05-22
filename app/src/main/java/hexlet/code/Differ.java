@@ -1,21 +1,12 @@
 package hexlet.code;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Differ {
-    public static String parseJson(String path) throws Exception {
-        //System.out.println(Files.readString(Paths.get(path)));
-        return Files.readString(Paths.get(path));
-    }
-
-    public static Map<String, Object> convert(String jsonContent) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(jsonContent, Map.class);
-    }
 
     public static String generate(Map<String, Object> map1, Map<String, Object> map2) throws Exception {
         Map<String, Object> tree = new TreeMap<>();
@@ -41,6 +32,10 @@ public class Differ {
         builder.append("}");
 
         return builder.toString();
+    }
+
+    public static String compareYml(Map<String, Object> map1, Map<String, Object> map2) {
+        return "";
     }
 }
 

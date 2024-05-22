@@ -31,8 +31,10 @@ public class App implements Callable {
             String path1 = filepath1;
             String path2 = filepath2;
 
-            Map<String, Object> map1 = Differ.convert(Differ.parseJson(path1));
-            Map<String, Object> map2 = Differ.convert(Differ.parseJson(path2));
+            Map<String, Object> map1 = Parser.convert(Parser.parse(path1));
+            Map<String, Object> map2 = Parser.convert(Parser.parse(path2));
+//            Map<String, Object> map1 = Parser.convertYml(path1);
+//            Map<String, Object> map2 = Parser.convertYml(path2);
 
             String diff = Differ.generate(map1, map2);
             System.out.println(diff);
