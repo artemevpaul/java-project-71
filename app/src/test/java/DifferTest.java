@@ -1,9 +1,11 @@
-import hexlet.code.Differ;
-import hexlet.code.Parser;
+import hexlet.code.*;
 import org.junit.jupiter.api.Assertions;
 import  org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.BeforeEach;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,26 +21,24 @@ class DifferTest {
                 + "  \"proxy\": \"123.234.53.22\",\n"
                 + "  \"follow\": false\n"
                 + "}";
-        Assertions.assertEquals(file1Contents, Parser.parse("src/main/java/hexlet/code/file1.json"));
+        Assertions.assertEquals(file1Contents, FileParserFactory.getFileParser("src/main/java/hexlet/code/file1.json"));
     }
     @Test
-    public void testConvert() throws Exception {
-        String file1Contents = "{\n"
-                + "  \"host\": \"hexlet.io\",\n"
-                + "  \"timeout\": 50,\n"
-                + "  \"proxy\": \"123.234.53.22\",\n"
-                + "  \"follow\": false\n"
-                + "}";
-        Map<String, Object> expectedMap = Map.of(
-                "host", "hexlet.io",
-                "timeout", 50,
-                "proxy", "123.234.53.22",
-                "follow", false
-        );
+    public void testReadStringFromFile() throws Exception {
+        Path testFilePath = Paths.get("testfile.yml");
 
-        Map<String, Object> resultMap = Parser.convert(file1Contents);
+        String expectedContent = "host: hexlet.io\n" +
+                    "timeout: 50\n" +
+                    "proxy: 123.234.53.22\n" +
+                    "follow: false\n";
 
-        assertEquals(expectedMap, resultMap);
+        Files.writeString(testFilePath, expectedContent);
+
+        String actualContent = Files.readString(testFilePath);
+
+        assertEquals(expectedContent, actualContent);
+
+        Files.delete(testFilePath);
     }
 
     @Test
@@ -49,7 +49,9 @@ class DifferTest {
                 + "  \"proxy\": \"123.234.53.22\",\n"
                 + "  \"follow\": false\n"
                 + "}";
-        assertEquals(Parser.parse("src/main/java/hexlet/code/file1.yml"), ymlContents);
+        FileParser parser1 = FileParserFactory.getFileParser("src/main/java/hexlet/code/file1.yml");
+        Map<String, Object> map1 = parser1.parse("src/main/java/hexlet/code/file1.yml");
+        assertEquals(map1, ymlContents);
     }
 
     @Test
@@ -62,7 +64,14 @@ class DifferTest {
                 + "  + timeout: 20\n"
                 + "  + verbose: true\n"
                 + "}";
-        assertEquals((Differ.generate(Parser.convert(Parser.parse("src/main/java/hexlet/code/file1.yml")),
-                Parser.convert(Parser.parse("src/main/java/hexlet/code/file2.yml")))), compareResult);
+        FileParser parser1 = FileParserFactory.getFileParser("src/main/java/hexlet/code/file1.yml");
+        FileParser parser2 = FileParserFactory.getFileParser("src/main/java/hexlet/code/file2.yml");
+
+        Map<String, Object> map1 = parser1.parse("src/main/java/hexlet/code/file1.yml");
+        Map<String, Object> map2 = parser2.parse("src/main/java/hexlet/code/file2.yml");
+
+        String result = Differ.generate(map1, map2);
+
+        assertEquals(compareResult, result);
     }
 }
