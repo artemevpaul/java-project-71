@@ -9,7 +9,7 @@ import java.util.Map;
 public class JsonParser implements FileParser {
     @Override
     public Map<String, Object> parse(String path) throws Exception {
-        String jsonContent = Files.readString(Paths.get(path));
+        String jsonContent = Files.readString(Paths.get(path).toAbsolutePath().normalize());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(jsonContent, Map.class);
     }

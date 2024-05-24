@@ -10,7 +10,7 @@ import java.util.Map;
 public class YmlParser implements FileParser {
     @Override
     public Map<String, Object> parse(String path) throws Exception {
-        String ymlContent = Files.readString(Paths.get(path));
+        String ymlContent = Files.readString(Paths.get(path).toAbsolutePath().normalize());
         ObjectMapper mapper = new YAMLMapper();
         return mapper.readValue(ymlContent, Map.class);
     }

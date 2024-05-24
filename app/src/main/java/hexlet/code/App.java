@@ -14,16 +14,13 @@ import java.util.concurrent.Callable;
         mixinStandardHelpOptions = true
 )
 public class App implements Callable {
-    @Option(names = {"-f", "--format"}, paramLabel = "format", description = "output format [default: stylish]")
+    @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish",
+            description = "output format [default: stylish]")
     private String format;
     @Parameters(index = "0", paramLabel = "filepath1", description = "path to first file")
     private String filepath1;
     @Parameters(index = "1", paramLabel = "filepath2", description = "path to second file")
     private String filepath2;
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new App()).execute(args);
-        System.exit(exitCode);
-    }
 
     @Override
     public Object call() {
@@ -36,11 +33,16 @@ public class App implements Callable {
             Map<String, Object> map1 = parser1.parse(path1);
             Map<String, Object> map2 = parser2.parse(path2);
 
-            String diff = Differ.generate(map1, map2);
+            String diff = Stylish.formatStylish(Differ.generate(map1, map2));
             System.out.println(diff);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new App()).execute(args);
+        System.exit(exitCode);
     }
 }

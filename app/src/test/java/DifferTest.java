@@ -2,6 +2,7 @@ import hexlet.code.Differ;
 import hexlet.code.FileParser;
 import hexlet.code.FileParserFactory;
 //import org.junit.jupiter.api.Assertions;
+import hexlet.code.Stylish;
 import  org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.BeforeEach;
 
@@ -28,7 +29,7 @@ class DifferTest {
 //    }
     @Test
     public void testReadStringFromFile() throws Exception {
-        Path testFilePath = Paths.get("testfile.yml");
+        Path testFilePath = Paths.get("testfile2.yml");
 
         String expectedContent = "host: hexlet.io\n"
                 + "timeout: 50\n"
@@ -73,8 +74,23 @@ class DifferTest {
         Map<String, Object> map1 = parser1.parse("src/main/java/hexlet/code/file1.yml");
         Map<String, Object> map2 = parser2.parse("src/main/java/hexlet/code/file2.yml");
 
-        String result = Differ.generate(map1, map2);
+        String result = Stylish.formatStylish(Differ.generate(map1, map2));
 
         assertEquals(compareResult, result);
     }
+
+    @Test
+    public void testDiffer() throws Exception {
+        String expectedResult = Files.readString(Paths.get("src/test/resources/Expected/ExpectedStylish"));
+
+        FileParser parser1 = FileParserFactory.getFileParser("src/test/resources/testfile1.yml");
+        FileParser parser2 = FileParserFactory.getFileParser("src/test/resources/testfile2.yml");
+
+        Map<String, Object> map1 = parser1.parse("src/test/resources/testfile1.yml");
+        Map<String, Object> map2 = parser2.parse("src/test/resources/testfile2.yml");
+
+        String actualResult = Stylish.formatStylish(Differ.generate(map1, map2));
+        assertEquals(expectedResult, actualResult);
+    }
 }
+
