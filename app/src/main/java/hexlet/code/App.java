@@ -1,11 +1,13 @@
 package hexlet.code;
 
+//import hexlet.code.Formatters.Stylish;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.util.Map;
+//import javax.swing.text.html.parser.Parser;
+//import java.util.Map;
 import java.util.concurrent.Callable;
 
 @Command(
@@ -27,13 +29,8 @@ public class App implements Callable {
         try {
             String path1 = filepath1;
             String path2 = filepath2;
-            FileParser parser1 = FileParserFactory.getFileParser(path1);
-            FileParser parser2 = FileParserFactory.getFileParser(path2);
 
-            Map<String, Object> map1 = parser1.parse(path1);
-            Map<String, Object> map2 = parser2.parse(path2);
-
-            String diff = Stylish.formatStylish(Differ.generate(map1, map2));
+            String diff = Differ.generate(path1, path2, format);
             System.out.println(diff);
         } catch (Exception e) {
             throw new RuntimeException(e);

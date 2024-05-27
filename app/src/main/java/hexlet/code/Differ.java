@@ -1,45 +1,38 @@
 package hexlet.code;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import hexlet.code.Formatters.Stylish;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+
 
 public class Differ {
 
-    public static List<Map<String, Object>> generate(Map<String, Object> map1, Map<String, Object> map2)
+    public static String generate(String path1, String path2, String format)
             throws Exception {
-        List<Map<String, Object>> result = new ArrayList<>();
 
-        Set<String> keySet = new TreeSet<>(map1.keySet());
-        keySet.addAll(map2.keySet());
+        FileParser parser1 = FileParserFactory.getFileParser(path1);
+        FileParser parser2 = FileParserFactory.getFileParser(path2);
 
-        for (var key : keySet) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                map.put("key", key);
-                map.put("oldValue", map1.get(key));
-                map.put("status", "removed");
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                map.put("key", key);
-                map.put("newValue", map2.get(key));
-                map.put("status", "added");
-            } else if (!Objects.equals(map1.get(key), map2.get(key))) {
-                map.put("key", key);
-                map.put("oldValue", map1.get(key));
-                map.put("newValue", map2.get(key));
-                map.put("status", "updated");
-            } else {
-                map.put("key", key);
-                map.put("oldValue", map1.get(key));
-                map.put("status", "unchanged");
-            }
-            result.add(map);
-        }
-        return result;
+        Map<String, Object> map1 = parser1.parse(path1);
+        Map<String, Object> map2 = parser2.parse(path2);
+
+        List<Map<String, Object>> result = Comparator.compare(map1, map2);
+
+        return Formatter.formatStyle(result, format);
+    }
+    public static String generate(String path1, String path2)
+            throws Exception {
+
+        FileParser parser1 = FileParserFactory.getFileParser(path1);
+        FileParser parser2 = FileParserFactory.getFileParser(path2);
+
+        Map<String, Object> map1 = parser1.parse(path1);
+        Map<String, Object> map2 = parser2.parse(path2);
+
+        List<Map<String, Object>> result = Comparator.compare(map1, map2);
+
+        return Stylish.formatStylish(result);
     }
 }
 

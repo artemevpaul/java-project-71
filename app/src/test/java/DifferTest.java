@@ -1,8 +1,7 @@
+//import org.junit.jupiter.api.Assertions;
 import hexlet.code.Differ;
 import hexlet.code.FileParser;
 import hexlet.code.FileParserFactory;
-//import org.junit.jupiter.api.Assertions;
-import hexlet.code.Stylish;
 import  org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.BeforeEach;
 
@@ -74,7 +73,10 @@ class DifferTest {
         Map<String, Object> map1 = parser1.parse("src/main/java/hexlet/code/file1.yml");
         Map<String, Object> map2 = parser2.parse("src/main/java/hexlet/code/file2.yml");
 
-        String result = Stylish.formatStylish(Differ.generate(map1, map2));
+
+
+        String result = Differ.generate("src/main/java/hexlet/code/file1.yml",
+                "src/main/java/hexlet/code/file2.yml", "stylish");
 
         assertEquals(compareResult, result);
     }
@@ -83,14 +85,20 @@ class DifferTest {
     public void testDiffer() throws Exception {
         String expectedResult = Files.readString(Paths.get("src/test/resources/Expected/ExpectedStylish"));
 
-        FileParser parser1 = FileParserFactory.getFileParser("src/test/resources/testfile1.yml");
-        FileParser parser2 = FileParserFactory.getFileParser("src/test/resources/testfile2.yml");
+        String path1 = "src/test/resources/testfile1.yml";
+        String path2 = "src/test/resources/testfile2.yml";
 
-        Map<String, Object> map1 = parser1.parse("src/test/resources/testfile1.yml");
-        Map<String, Object> map2 = parser2.parse("src/test/resources/testfile2.yml");
 
-        String actualResult = Stylish.formatStylish(Differ.generate(map1, map2));
+        String actualResult = Differ.generate(path1, path2, "stylish");
         assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void testPlain() throws Exception {
+        String expected = Files.readString(Paths.get("src/test/resources/Expected/ExpectedPlain").toAbsolutePath()
+                .normalize());
+        assertEquals(expected, Differ.generate("src/test/resources/testfile1.yml",
+                "src/test/resources/testfile2.yml", "plain"));
     }
 }
 
