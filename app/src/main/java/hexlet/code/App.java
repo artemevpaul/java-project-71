@@ -1,13 +1,10 @@
 package hexlet.code;
 
-//import hexlet.code.Formatters.Stylish;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-//import javax.swing.text.html.parser.Parser;
-//import java.util.Map;
 import java.util.concurrent.Callable;
 
 @Command(
