@@ -1,8 +1,6 @@
-import hexlet.code.Differ;
-import hexlet.code.FileParser;
-import hexlet.code.FileParserFactory;
-import hexlet.code.JsonParser;
-import org.junit.jupiter.api.Assertions;
+package hexlet.code;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import  org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -11,84 +9,62 @@ import java.nio.file.Paths;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DifferTest {
+    private final String path1 = "src/test/resources/testfile1.json";
+    private final String path2 = "src/test/resources/testfile2.json";
+    private final String path3 = "src/test/resources/testfile1.yml";
+    private final String path4 = "src/test/resources/testfile2.yml";
+
+    private final Path pathStylish =
+            Paths.get("src/test/resources/Expected/ExpectedStylish").toAbsolutePath().normalize();
+    private final Path pathPlain =
+            Paths.get("src/test/resources/Expected/ExpectedPlain").toAbsolutePath().normalize();
+    private final Path pathJson =
+            Paths.get("src/test/resources/Expected/ExpectedJson.json").toAbsolutePath().normalize();
+
+
     @Test
-    public void testDiffer() throws Exception {
-        String expectedResult = Files.readString(Paths.get("src/test/resources/Expected/ExpectedStylish"));
-
-        String path1 = "src/test/resources/testfile1.yml";
-        String path2 = "src/test/resources/testfile2.yml";
-
-
-        String actualResult = Differ.generate(path1, path2, "stylish");
-        assertEquals(expectedResult, actualResult);
+    public void test1() throws Exception {
+        String expected = Files.readString(pathStylish);
+        assertEquals(expected, Differ.generate(path1, path2));
     }
 
     @Test
-    public void testDifferDefault() throws Exception {
-        String expectedResult = Files.readString(Paths.get("src/test/resources/Expected/ExpectedStylish"));
-
-        Assertions.assertEquals(Differ.generate("src/test/resources/testfile1.json",
-                "src/test/resources/testfile2.json"), expectedResult);
+    public void testStylish1() throws Exception {
+        String expected = Files.readString(pathStylish);
+        assertEquals(expected, Differ.generate(path1, path2, "stylish"));
     }
 
     @Test
-    public void testReadStringFromFile() throws Exception {
-        Path testFilePath = Paths.get("testfile2.yml");
-
-        String expectedContent = "host: hexlet.io\n"
-                + "timeout: 50\n"
-                + "proxy: 123.234.53.22\n"
-                + "follow: false\n";
-
-        Files.writeString(testFilePath, expectedContent);
-
-        String actualContent = Files.readString(testFilePath);
-
-        assertEquals(expectedContent, actualContent);
-
-        Files.delete(testFilePath);
+    public void testStylish2() throws Exception {
+        String expected = Files.readString(pathStylish);
+        assertEquals(expected, Differ.generate(path3, path4, "stylish"));
     }
 
     @Test
-    public void testCompareYml() throws Exception {
-        String compareResult = "{\n"
-                + "  - follow: false\n"
-                + "    host: hexlet.io\n"
-                + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n"
-                + "  + timeout: 20\n"
-                + "  + verbose: true\n"
-                + "}";
-
-        String result = Differ.generate("src/main/java/hexlet/code/file1.yml",
-                "src/main/java/hexlet/code/file2.yml", "stylish");
-
-        assertEquals(compareResult, result);
+    public void testPlain1() throws Exception {
+        String expected = Files.readString(pathPlain);
+        assertEquals(expected, Differ.generate(path1, path2, "plain"));
     }
 
     @Test
-    public void testPlain() throws Exception {
-        String expected = Files.readString(Paths.get("src/test/resources/Expected/ExpectedPlain").toAbsolutePath()
-                .normalize());
-        assertEquals(expected, Differ.generate("src/test/resources/testfile1.yml",
-                "src/test/resources/testfile2.yml", "plain"));
+    public void testPlain2() throws Exception {
+        String expected = Files.readString(pathPlain);
+        assertEquals(expected, Differ.generate(path3, path4, "plain"));
     }
 
     @Test
-    public void testJson() throws Exception {
-        String expected = Files.readString(Paths.get("src/test/resources/Expected/ExpectedJson").toAbsolutePath()
-                .normalize());
-        assertEquals(expected, Differ.generate("src/test/resources/testfile1.yml",
-                "src/test/resources/testfile2.yml", "json"));
+    public void testJson1() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        assertEquals(mapper.readTree(Files.readString(pathJson)),
+                mapper.readTree(Differ.generate(path1, path2, "json")));
     }
 
     @Test
-    public void testFactory() throws Exception {
-        FileParser result = new JsonParser();
-        assertTrue(FileParserFactory.getFileParser("src/main/java/hexlet/code/file1.json").getClass()
-                .equals(result.getClass()));
+    public void testJson2() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        var expected = mapper.readTree(Files.readString(pathJson));
+        assertEquals(expected, mapper.readTree(Differ.generate(path3, path4, "json")));
     }
 }

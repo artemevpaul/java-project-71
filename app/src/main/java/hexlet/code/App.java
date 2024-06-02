@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
         description = "Compares two configuration files and shows a difference.",
         mixinStandardHelpOptions = true
 )
-public class App implements Callable {
+public class App implements Callable<Integer> {
     @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish",
             description = "output format [default: stylish]")
     private String format;
@@ -22,17 +22,9 @@ public class App implements Callable {
     private String filepath2;
 
     @Override
-    public Object call() {
-        try {
-            String path1 = filepath1;
-            String path2 = filepath2;
-
-            String diff = Differ.generate(path1, path2, format);
-            System.out.println(diff);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+    public Integer call() throws Exception {
+        System.out.println(Differ.generate(filepath1, filepath2, format));
+        return 0;
     }
 
     public static void main(String[] args) {

@@ -18,11 +18,11 @@ public class Comparator {
 
         for (var key : keySet) {
             Map<String, Object> map = new LinkedHashMap<>();
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
+            if (!map2.containsKey(key)) {
                 map.put("key", key);
                 map.put("oldValue", map1.get(key));
                 map.put("status", "removed");
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
+            } else if (!map1.containsKey(key)) {
                 map.put("key", key);
                 map.put("newValue", map2.get(key));
                 map.put("status", "added");
