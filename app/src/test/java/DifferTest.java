@@ -25,9 +25,14 @@ class DifferTest {
 
 
     @Test
-    public void test1() throws Exception {
+    public void testDefault1() throws Exception {
         String expected = Files.readString(pathStylish);
         assertEquals(expected, Differ.generate(path1, path2));
+    }
+    @Test
+    public void testDefault2() throws Exception {
+        String expected = Files.readString(pathStylish);
+        assertEquals(expected, Differ.generate(path3, path4));
     }
 
     @Test
