@@ -24,14 +24,9 @@ _git clone [https://github.com/artemevpaul/java-project-71.git]_
 
 To compile and build the application, navigate to the project directory and use the Gradle task `run` or by using the following command:
 
-_./gradlew run_
+_make run
 
-
-On Windows, you might need to use:
-
-_gradlew.bat run_
-
-This command compiles the Java source files, builds the project, and runs the application, bringing up the game selection menu.
+This command compiles the Java source files, builds the project, and runs the application.
 
 ## Running the Built Application
 
