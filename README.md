@@ -22,19 +22,11 @@ _git clone [https://github.com/artemevpaul/java-project-71.git]_
 
 ## Compiling and Building the Application
 
-To compile and build the application, navigate to the project directory and use the Gradle task `run` or by using the following command:
-
-_make run
-
-This command compiles the Java source files, builds the project, and runs the application.
+To compile and build the application, navigate to the project directory and use the Gradle task `installDist` and `Build` this will compilee the Java source files, builds the project.
 
 ## Running the Built Application
 
-If the project has already been built, you can quickly start the application using the following Makefile command:
-
-_make run-dist_
-
-This command is designed for convenience, allowing for rapid launching of the built application without recompiling.
+You can run the app by using `make run-dist` command and follow the instructions in the console.
 
 
 ## Functionality Overview
