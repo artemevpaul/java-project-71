@@ -31,13 +31,13 @@ You can run the app by using `make run-dist` command and follow the instructions
 
 ## Functionality Overview
 
-Comparison of two YAML files with default Stylish formatter
+Comparison of two YAML files with default Stylish formatter:    
 https://asciinema.org/a/hOjN2bBUeZL7Y8vEBqY81gSPH
 
-Comparison of twi YAML files with Plain formatter
+Comparison of two YAML files with Plain formatter:    
 https://asciinema.org/a/s0nQiwtYH5FbtyV7JHDLnmU5x
 
-Comparison of two JSON files with Json formatter:
+Comparison of two JSON files with Json formatter:  
 https://asciinema.org/a/e0PFF7tlYE60RcpyC0Gv9fVoj
 
 
