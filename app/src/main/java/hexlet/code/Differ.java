@@ -12,8 +12,8 @@ public class Differ {
     public static String generate(String path1, String path2, String format)
             throws Exception {
 
-        String data1 = readData(path1);
-        String data2 = readData(path2);
+        String data1 = readData(getPath(path1));
+        String data2 = readData(getPath(path2));
 
         String fileType1 = getFormat(path1);
         String fileType2 = getFormat(path2);
@@ -29,8 +29,12 @@ public class Differ {
             throws Exception {
         return generate(path1, path2, "stylish");
     }
-    public static String readData(String filepath) throws Exception {
-        Path path = Paths.get(filepath.substring(filepath.indexOf("src")));
+    public static Path getPath(String filepath) throws Exception {
+        Path path = Paths.get(filepath);
+        return path.toAbsolutePath().normalize();
+    }
+
+    public static String readData(Path path) throws Exception {
         return Files.readString(path);
     }
 
