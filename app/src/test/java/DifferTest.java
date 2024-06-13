@@ -2,7 +2,7 @@ package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
-import  org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,24 +16,29 @@ class DifferTest {
     private static String dataStylish;
     private static String dataPlain;
     private static String dataJson;
+
     private static Path generatePath(String fileName) {
         return Paths.get("src/test/resources", fileName).toAbsolutePath().normalize();
     }
+
     private static String readData(Path path) throws Exception {
         return Files.readString(path);
     }
+
     @BeforeAll
     public static void storePath() throws Exception {
         dataStylish = readData(generatePath("Expected/ExpectedStylish"));
         dataPlain = readData(generatePath("Expected/ExpectedPlain"));
         dataJson = readData(generatePath("Expected/ExpectedJson.json"));
     }
+
     @Test
     public void testDefault1() throws Exception {
         String expected = dataStylish;
         assertEquals(expected, Differ.generate(generatePath("testfile1.json").toString(),
                 generatePath("testfile2.json").toString()));
     }
+
     @Test
     public void testDefault2() throws Exception {
         String expected = dataStylish;

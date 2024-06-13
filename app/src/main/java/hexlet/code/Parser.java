@@ -9,7 +9,8 @@ import java.util.TreeMap;
 public class Parser {
     public static TreeMap<String, Object> parser(String data, String format) throws Exception {
         ObjectMapper mapper = chooseFormat(format);
-        return mapper.readValue(data, new TypeReference<>() { });
+        return mapper.readValue(data, new TypeReference<>() {
+        });
     }
 
     private static ObjectMapper chooseFormat(String format) {
