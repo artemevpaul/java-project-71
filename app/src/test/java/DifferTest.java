@@ -13,24 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DifferTest {
 
-    private static String pathStylish;
-    private static String pathPlain;
-    private static String pathJson;
-
-    public String getPathToFile(String fileName) {
-        switch (fileName) {
-            case "testfile1":
-                return "src/test/resources/testfile1.json";
-            case "testfile2":
-                return "src/test/resources/testfile2.json";
-            case "testfile3":
-                return "src/test/resources/testfile1.yml";
-            case "testfile4":
-                return "src/test/resources/testfile2.yml";
-            default:
-                throw new IllegalArgumentException("Invalid file name: " + fileName);
-        }
-    }
+    private static String dataStylish;
+    private static String dataPlain;
+    private static String dataJson;
     private static Path generatePath(String fileName) {
         return Paths.get("src/test/resources", fileName).toAbsolutePath().normalize();
     }
@@ -39,64 +24,64 @@ class DifferTest {
     }
     @BeforeAll
     public static void storePath() throws Exception {
-        pathStylish = readData(generatePath("Expected/ExpectedStylish"));
-        pathPlain = readData(generatePath("Expected/ExpectedPlain"));
-        pathJson = readData(generatePath("Expected/ExpectedJson.json"));
+        dataStylish = readData(generatePath("Expected/ExpectedStylish"));
+        dataPlain = readData(generatePath("Expected/ExpectedPlain"));
+        dataJson = readData(generatePath("Expected/ExpectedJson.json"));
     }
     @Test
     public void testDefault1() throws Exception {
-        String expected = pathStylish;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile1"),
-                getPathToFile("testfile2")));
+        String expected = dataStylish;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.json").toString(),
+                generatePath("testfile2.json").toString()));
     }
     @Test
     public void testDefault2() throws Exception {
-        String expected = pathStylish;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile3"),
-                getPathToFile("testfile4")));
+        String expected = dataStylish;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.yml").toString(),
+                generatePath("testfile2.yml").toString()));
     }
 
     @Test
     public void testStylish1() throws Exception {
-        String expected = pathStylish;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile1"),
-                getPathToFile("testfile2"), "stylish"));
+        String expected = dataStylish;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.json").toString(),
+                generatePath("testfile2.json").toString(), "stylish"));
     }
 
     @Test
     public void testStylish2() throws Exception {
-        String expected = pathStylish;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile3"),
-                getPathToFile("testfile4"), "stylish"));
+        String expected = dataStylish;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.yml").toString(),
+                generatePath("testfile2.yml").toString(), "stylish"));
     }
 
     @Test
     public void testPlain1() throws Exception {
-        String expected = pathPlain;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile1"),
-                getPathToFile("testfile2"), "plain"));
+        String expected = dataPlain;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.json").toString(),
+                generatePath("testfile2.json").toString(), "plain"));
     }
 
     @Test
     public void testPlain2() throws Exception {
-        String expected = pathPlain;
-        assertEquals(expected, Differ.generate(getPathToFile("testfile3"),
-                getPathToFile("testfile4"), "plain"));
+        String expected = dataPlain;
+        assertEquals(expected, Differ.generate(generatePath("testfile1.yml").toString(),
+                generatePath("testfile2.yml").toString(), "plain"));
     }
 
     @Test
     public void testJson1() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        assertEquals(mapper.readTree(pathJson),
-                mapper.readTree(Differ.generate(getPathToFile("testfile1"),
-                        getPathToFile("testfile2"), "json")));
+        assertEquals(mapper.readTree(dataJson),
+                mapper.readTree(Differ.generate(generatePath("testfile1.json").toString(),
+                        generatePath("testfile2.json").toString(), "json")));
     }
 
     @Test
     public void testJson2() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        var expected = mapper.readTree(pathJson);
-        assertEquals(expected, mapper.readTree(Differ.generate(getPathToFile("testfile3"),
-                getPathToFile("testfile4"), "json")));
+        var expected = mapper.readTree(dataJson);
+        assertEquals(expected, mapper.readTree(Differ.generate(generatePath("testfile1.yml").toString(),
+                generatePath("testfile2.yml").toString(), "json")));
     }
 }

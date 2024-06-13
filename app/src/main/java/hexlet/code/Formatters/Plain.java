@@ -22,7 +22,7 @@ public class Plain {
                         .append(complexValue(diffs.get("value2")))
                         .append("\n");
 
-                default -> result.append("");
+                default ->
             }
 
         }
